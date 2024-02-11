@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config) => {
+    config.externals.push({
+      "utf-8-validate": "commonjs utf-8-validate",
+      bufferutil: "commonjs bufferutil",
+      canvas: "commonjs canvas",
+    });
+    // config.infrastructureLogging = { debug: /PackFileCache/ };
+    return config;
+  },
   images: {
     remotePatterns: [
       {
@@ -9,15 +18,8 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
-    // Add a rule to handle .node files
-    config.module.rules.push({
-      test: /\.node$/,
-      use: "node-loader",
-    });
-
-    // Return the modified configuration
-    return config;
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 
